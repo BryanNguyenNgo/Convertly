@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit Converter</title>
+  <style>
+    .hstack {
+      display: flex;
+      justify-content: flex-start;
+      gap: 20px;
+    }
+
+
+
+
+    #rectangle1 {
+      width: 75%;
+      height: 600px;
+      border: 10px solid #ddd;
+      padding: 20px;
+    }
+
+    #questionValue2 {
+      height: 40%;
+      font-size: 20px;
+      width: 30%;
+    }
+    #nextButton {
+      height: 40%;
+      font-size: 20px;
+      width: 30%;
+    }
+
+
+    #rectangle2 {
+      width: 20%; /* Sidebar width */
+      height: 600px;
+      border: 10px solid #ddd;
+      padding: 20px; /* Add padding for better spacing */
+    }
+    .item {
+      padding: 10px;
+      border-radius: 5px;
+    }
+    /* */
+    #copy {
+      height: 40%;
+      font-size: 20px;
+      width: 30%;
+    }
+    /* Full page background */
+    body {
+      align-items: center;
+      background-color: #f0f0f0;
+      font-family: "Arial", sans-serif;
+    }
+
+
+
+
+    /* Display area */
+    .display {
+      background-color: #333;
+      color: #fff;
+      font-size: 80%;
+      width: 100%;
+      text-align: center;
+      width: 20%;
+    }
+    #to {
+      text-align: center;
+      font-size: 80%;
+    }
+    #from {
+      text-align: center;
+      font-size: 80%;
+    }
+
+
+
+
+    input {
+      width: 200px;
+      min-width: 100px;
+      height: 30px;
+      font-size: 18px;
+      background-color: pink;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 5px;
+    }
+
+
+
+
+    select {
+      min-width: 200px;
+      height: 200px;
+      font-size: 16px;
+      background-color: pink;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 5px;
+    }
+    button {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      background-color: #f0f0f0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      margin: 5px;
+    }
+    button:hover {
+      background-color: paleturquoise;
+    }
+  </style>
+  <script>
+    var correct = "What is 5.642km in centimetres"
+    var ifCorrect = ""
+    var historyList = [];
+    var historyList2 = [];
+    var unit = "";
+    var unit2 = ""
+    var selectedUnit = "cookingOptions";
+    var toGoHistory = "";
+    function getUnit() {
+      if (!selectedUnit) return;
+      if (selectedUnit == "length") {
+        getValue();
+      } else if (selectedUnit == "temperature") {
+        getTemperature();
+      } else if (selectedUnit == "weight") {
+        getWeight();
+      } else if (selectedUnit == "cookingOptions") {
+        getCookingOptions();
+      }
+    }
+    let questions = [
+  { question: "What is 5.709km in centimetres?", answer: 570900 },
+  { question: "What is 25 Celsius in Kelvin?", answer: 298.15 },
+   { question: "What is 3.2 kilograms in tonnes?", answer:  0.0032 },
+  { question: "What is 3 Litres in Tablespoons?", answer: 100 },
+  { question: "What is 4.32m in kilometres?", answer: 432000 }
+];
+
+let currentQuestionIndex = 0; // Track current question
+
+function loadQuestion() {
+  document.getElementById("question").innerHTML = questions[currentQuestionIndex].question;
+  document.getElementById("questionValue").value = ""; // Clear input
+  document.getElementById("nextButton").disabled = true; // Disable Next initially
+}
+
+function checkAnswer() {
+  let userAnswer = document.getElementById("questionValue").value;
+  let correctAnswer = questions[currentQuestionIndex].answer;
+  let isCorrect = userAnswer == correctAnswer;
+
+  document.getElementById("question").innerHTML = isCorrect ? "-- Correct! --" : "Try Again!";
+  document.getElementById("nextButton").disabled = !isCorrect; // Enable Next if correct
+}
+
+function nextQuestion() {
+  currentQuestionIndex = currentQuestionIndex+1;
+
+  if (currentQuestionIndex < questions.length) {
+    loadQuestion(); // Load next question
+  } else {
+    document.getElementById("question").innerHTML = "Quiz Complete!";
+    document.getElementById("nextButton").style.display = "none"; // Hide next button
+  }
+}
+
+// Initialize first question when page loads
+
+
+
+
+
+ 
+
+    function getCookingOptions() {
+    var firstValue = document.getElementById("firstValue").value;
+ var secondValue = firstValue * (document.querySelector("#to").value / document.querySelector("#from").value);
+ var unit1, unit2;
+
+// Determine the units for the first value
+var value1 = document.querySelector("#to").value;
+var value2 = document.querySelector("#from").value;
+     secondValue = firstValue * (value1 / value2);
+     if (value1 == 1) {
+       unit1 = "ml";
+     }
+     if (value1 == 15) {
+       unit1 = "tsp";
+     }
+     if (value1 == 30) {
+       unit1 = "tbsp";
+     }
+     if (value1 == 237) {
+       unit1 = " cups";
+     }
+     if (value1 == 474) {
+       unit1 = " pints";
+     }
+     if (value1 == 1000) {
+       unit1 = " litres";
+     }
+     if (value1 == 3792) {
+       unit1 = " gallon";
+     }
+     if (value2 == 1) {
+       unit2 = "ml";
+     }
+     if (value2 == 15) {
+       unit2 = "tsp";
+     }
+     if (value2 == 30) {
+       unit2 = "tbsp";
+     }
+     if (value2 == 237) {
+       unit2 = " cups";
+     }
+     if (value2 == 474) {
+       unit2 = " pints";
+     }
+     if (value2 == 1000) {
+       unit2 = " litres";
+     }
+     if (value2 == 3792) {
+       unit2 = " gallon";
+     }
+     secondValue = roundToTwo(secondValue);
+
+ // Display the results
+ document.getElementById("message").innerHTML = secondValue;
+ document.getElementById("unit").innerHTML = unit2;
+ var historyEntry = `${firstValue} ${unit1} -> ${secondValue} ${unit2}`;
+ historyList.push(historyEntry);
+   }
+    function getTemperature() {
+      var firstValue = document.getElementById("firstValue").value;
+      var secondValue = 0
+
+
+
+
+var unit1, unit2;
+
+
+
+
+// Determine the units for the first value
+var value1 = document.querySelector("#to").value;
+var value2 = document.querySelector("#from").value;
+      if (value1 == 0 && value2 == 32) {
+        secondValue = firstValue * 1.8 + 32;
+      }
+      if (value1 == 32 && value2 == 0) {
+        secondValue = ((firstValue - 32) * 5) / 9;
+      }
+
+
+
+
+      if (value1 == 0 && value2 == 255) {
+        secondValue = firstValue * 1 + 273.15;
+      }
+
+
+
+
+      if (value1 == 32 && value2 == 255) {
+        secondValue = ((firstValue - 32) * 5) / 9;
+        +273.15;
+      }
+      if (value1 == 255 && value2 == 0) {
+        secondValue = firstValue - 273.15;
+      }
+      if (value1 == 255 && value2 == 32) {
+        secondValue = firstValue - 273.15 * 1.8 + 32;
+      }
+      if (value1 == 255 && value2 == 255) {
+        secondValue = firstValue
+      }
+      if (value1 == 0 && value2 == 0) {
+        secondValue = firstValue
+      }
+      if (value1 == 32 && value2 == 32) {
+        secondValue = firstValue
+      }
+      if (value1 == 0) {
+        unit1 = " degrees Celsisus";
+      }
+      if (value1 == 32) {
+        unit1 = " degrees Fahrenheit";
+      }
+      if (value1 == 255) {
+        unit1 = " Kelvin";
+      }
+      if (value2 == 0) {
+        unit2 = " degrees Celsisus";
+      }
+      if (value2 == 32) {
+        unit2 = " degrees Fahrenheit";
+      }
+      if (value2 == 255) {
+        unit2 = " Kelvin";
+      }
+      firstValue = roundToTwo(firstValue);
+      document.getElementById("message").innerHTML = secondValue;
+  document.getElementById("unit").innerHTML = unit2;
+  var historyEntry = `${firstValue} ${unit1} -> ${secondValue} ${unit2}`;
+  historyList.push(historyEntry);
+    }
+    function myFunction() {
+    var copyText = document.getElementById("message").textContent;
+
+    // Create a temporary textarea
+    var tempTextArea = document.createElement("textarea");
+    tempTextArea.value = copyText;
+    document.body.appendChild(tempTextArea);
+
+    // Select and copy the text
+    tempTextArea.select();
+    document.execCommand("copy");
+
+    // Remove the temporary textarea
+    document.body.removeChild(tempTextArea);
+      var neededHistory = historyList[historyList.length - 1];
+      historyList2.push(neededHistory);
+      document.getElementById("oneHistory").innerHTML = historyList2.join("<br>");
+    }
+    function getWeight() {
+    var firstValue = document.getElementById("firstValue").value;
+ var secondValue = firstValue * (document.querySelector("#to").value / document.querySelector("#from").value);
+ var unit1, unit2;
+ // Determine the units for the first value
+ var value1 = document.querySelector("#to").value;
+ var value2 = document.querySelector("#from").value;
+ if (value1 == 1) {
+     unit1 = "kg";
+ } else if (value1 == 0.001) {
+     unit1 = "g";
+ } else if (value1 == 1000) {
+     unit1 = " ton";
+ }
+
+
+
+
+
+
+
+
+ if (value2 == 1) {
+     unit2 = "kg";
+ } else if (value2 == 0.001) {
+     unit2 = "g";
+ } else if (value2 == 1000) {
+     unit2 = " ton";
+ }
+
+
+ secondValue = roundToTwo(secondValue);
+
+
+ // Display the results
+ document.getElementById("message").innerHTML = secondValue;
+ document.getElementById("unit").innerHTML = unit2;
+ var historyEntry = `${firstValue} ${unit1} -> ${secondValue} ${unit2}`;
+ historyList.push(historyEntry);
+   }
+    function getValue() {
+  var firstValue = document.getElementById("firstValue").value;
+  var secondValue = firstValue * (document.querySelector("#to").value / document.querySelector("#from").value);
+
+
+
+
+  var unit1, unit2;
+
+
+
+
+  // Determine the units for the first value
+  var value1 = document.querySelector("#to").value;
+  var value2 = document.querySelector("#from").value;
+
+
+
+
+  if (value1 == 1) {
+      unit1 = "m";
+  } else if (value1 == 1000) {
+      unit1 = "km";
+  } else if (value1 == 0.01) {
+      unit1 = "cm";
+  }
+
+
+
+
+  if (value2 == 1) {
+      unit2 = "m";
+  } else if (value2 == 1000) {
+      unit2 = "km";
+  } else if (value2 == 0.01) {
+      unit2 = "cm";
+  }
+
+
+
+
+  secondValue = roundToTwo(secondValue);
+
+
+
+
+  // Display the results
+  document.getElementById("message").innerHTML = secondValue;
+  document.getElementById("unit").innerHTML = unit2;
+  var historyEntry = `${firstValue} ${unit1} -> ${secondValue} ${unit2}`;
+  historyList.push(historyEntry);
+ }
+
+
+
+
+    function roundToTwo(num) {
+      return +(Math.round(num + "e+8") + "e-8");
+    }
+    function lengthOptions() {
+      document.getElementById("firstValue").value = "";
+      document.getElementById("message").innerHTML = "";
+      document.getElementById("unit").innerHTML = "";
+      var fromOptions = document.getElementById("from");
+      fromOptions.innerHTML = '<option value="1" selected>Metre</option>';
+      fromOptions.innerHTML += '<option value="1000">Kilometre</option>';
+      fromOptions.innerHTML += '<option value="0.01">Centimetre</option>';
+
+
+
+
+      var toOptions = document.getElementById("to");
+      toOptions.innerHTML = '<option value="1" selected>Metre</option>';
+      toOptions.innerHTML += '<option value="1000">Kilometre</option>';
+      toOptions.innerHTML += '<option value="0.01">Centimetre</option>';
+      selectedUnit = "length";
+    }
+    function weightOptions() {
+      document.getElementById("firstValue").value = "";
+      document.getElementById("message").innerHTML = "";
+      document.getElementById("unit").innerHTML = "";
+      var fromOptions = document.getElementById("from");
+      fromOptions.innerHTML = '<option value="1" selected>Kilogram</option>';
+      fromOptions.innerHTML += '<option value="0.001">Gram</option>';
+      fromOptions.innerHTML += '<option value="1000">Ton</option>';
+
+
+
+
+      var toOptions = document.getElementById("to");
+      toOptions.innerHTML = '<option value="1" selected>Kilogram</option>';
+      toOptions.innerHTML += '<option value="0.001">Gram</option>';
+      toOptions.innerHTML += '<option value="1000">Ton</option>';
+      selectedUnit = "weight";
+    }
+
+
+
+
+    function temperatureOptions() {
+      document.getElementById("firstValue").value = "";
+      document.getElementById("message").innerHTML = "";
+      document.getElementById("unit").innerHTML = "";
+      var fromOptions = document.getElementById("from");
+      fromOptions.innerHTML = '<option value="0" selected>Celsisus</option>';
+      fromOptions.innerHTML += '<option value="32">Fahrenheit</option>';
+      fromOptions.innerHTML += '<option value="255">Kelvin</option>';
+
+
+
+
+      var toOptions = document.getElementById("to");
+      toOptions.innerHTML = '<option value="0" selected>Celsisus</option>';
+      toOptions.innerHTML += '<option value="32">Fahrenheit</option>';
+      toOptions.innerHTML += '<option value="255">Kelvin</option>';
+      selectedUnit = "temperature";
+    }
+    function cookingOptions() {
+      document.getElementById("firstValue").value = "";
+      document.getElementById("message").innerHTML = "";
+      document.getElementById("unit").innerHTML = "";
+      var fromOptions = document.getElementById("from");
+      fromOptions.innerHTML =
+        '<option value="1" selected>Mililitres(ml)</option>';
+      fromOptions.innerHTML += '<option value="15">Teaspoon(tsp)</option>';
+      fromOptions.innerHTML += '<option value="30">Tablespoon(Tbsp)</option>';
+      fromOptions.innerHTML += '<option value="237">Cup(c)</option>';
+      fromOptions.innerHTML += '<option value="473">Pint(pt)</option>';
+      fromOptions.innerHTML += '<option value="1000">Litres(L)</option>';
+      fromOptions.innerHTML += '<option value="3792">Gallon</option>';
+
+
+
+
+      var toOptions = document.getElementById("to");
+      toOptions.innerHTML =
+        '<option value="1" selected>Mililitres(ml)</option>';
+      toOptions.innerHTML += '<option value="15">Teaspoon(tsp)</option>';
+      toOptions.innerHTML += '<option value="30">Tablespoon(Tbsp)</option>';
+      toOptions.innerHTML += '<option value="237">Cup(c)</option>';
+      toOptions.innerHTML += '<option value="473">Pint(pt)</option>';
+      toOptions.innerHTML += '<option value="1000">Litres(L)</option>';
+      toOptions.innerHTML += '<option value="3792">Gallon</option>';
+      selectedUnit = "cookingOptions";
+    }
+
+
+
+
+    // Continue on with the options for volume, area and weight
+
+
+
+
+    function convert() {}
+  </script>
+</head>
+<body onload="loadQuestion()">
+  <center>
+    <div class="hstack">
+      <div id="rectangle1">
+        <h1>Unit Converter</h1>
+        <button type="button" class="display" onclick="cookingOptions()">
+          Cooking
+        </button>
+        <button type="button" class="display" onclick="lengthOptions()">
+          Length
+        </button>
+        <button type="button" class="display" onclick="temperatureOptions()">
+          Temperature
+        </button>
+        <button type="button" class="display" onclick="weightOptions()">
+          Weight
+        </button>
+        
+
+
+
+
+        <form style="">
+          From:
+          <input type="number" id="firstValue" oninput="getUnit()" /> To:
+          <label> <span id="message"></span><span id="unit"></span></label>
+          <br>
+          <button id="copy" type="button" onclick="myFunction()">Copy Text</button>
+        </form>
+
+
+
+
+        <div id="section" style="text-align: center">
+          <select id="to" multiple onchange="getUnit()">
+            <option value="1" selected>Mililitres(ml)</option>';
+    <option value="15">Teaspoon(tsp)</option>;
+<option value="30">Tablespoon(Tbsp)</option>;
+<option value="473">Pint(pt)</option>';
+<option value="1000">Litres(L)</option>
+<option value="3792">Gallon</option>
+          </select>
+
+
+
+
+          <select id="from" multiple onchange="getUnit()">
+           <option value="1" selected>Mililitres(ml)</option>';
+    <option value="15">Teaspoon(tsp)</option>;
+<option value="30">Tablespoon(Tbsp)</option>;
+<option value="473">Pint(pt)</option>';
+<option value="1000">Litres(L)</option>
+<option value="3792">Gallon</option>
+          </select>
+        </div>
+        <div id="game">
+             <h3> Use the converter to answer these question </h3>
+             <p id="question"></p>
+<input type="text" id="questionValue">
+</br>
+<button id="questionValue2" onclick="checkAnswer()">Submit</button>
+
+<!-- Initially disabled "Next" button -->
+<button id="nextButton" type="button" onclick="nextQuestion()" disabled>Next</button>
+             
+
+        </div>
+      </div>
+
+
+
+
+      <div id="rectangle2">
+        <!-- Sidebar content goes here -->
+        <h2>History</h2>
+        <p>Select over them to add to History</p>
+        <label> <span id="oneHistory"></span></span></label>
+      </div>
+    </div>
+  </center>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
